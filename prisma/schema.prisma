@@ -11,10 +11,36 @@ datasource db {
 }
 
 model User {
-  id    String @id @default(uuid())
-  name  String
-  email String @unique
+  id           String @id @default(uuid())
+  name         String
+  email        String @unique
+  passwordHash String
 
-  createdAt  DateTime @default(now())
-  updatedAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  CheckIns  CheckIn[]
+}
+
+model CheckIn {
+  id          String    @id @default(uuid())
+  validatedAt DateTime?
+  createdAt   DateTime  @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  gym   Gym    @relation(fields: [gymId], references: [id])
+  gymId String
+}
+
+model Gym {
+  id          String  @id @default(uuid())
+  title       String
+  description String?
+  phone       String?
+
+  latitude  Decimal
+  longitude Decimal
+
+  CheckIns CheckIn[]
 }
