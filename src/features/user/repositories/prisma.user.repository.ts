@@ -2,8 +2,6 @@ import { prisma } from "../../../lib/prisma.connection";
 import { Prisma } from "@prisma/client";
 import { UsersRepository } from "../utils/user.repository";
 
-Prisma.UserScalarFieldEnum
-
 export class PrismaUsersRepository implements UsersRepository{
   public async findByEmail(email: string) {
     const user = await prisma.user.findUnique({
