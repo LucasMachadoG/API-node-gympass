@@ -1,8 +1,18 @@
 import { Prisma, User } from "@prisma/client";
-import { UsersRepository } from "../../utils/user.repository";
+import { UsersRepository } from "../../contract/user.repository";
 
 export class inMemoryUsersRepository implements UsersRepository{
   public itens: User[] = []
+  
+  public async findById(id: string) {
+    const user = this.itens.find((item) => item.id === id)
+
+    if(!user){
+      return null
+    }
+
+    return user
+  }
 
   public async create(data: Prisma.UserCreateInput) {
     const currentDate = new Date();

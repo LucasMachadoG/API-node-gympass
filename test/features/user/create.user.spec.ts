@@ -1,15 +1,20 @@
-import { describe, expect, test } from 'vitest'
-import { CreateUserUsecase } from '../../../src/features/user/usecases/user.create.usecase'
+import { beforeEach, describe, expect, test } from 'vitest'
+import { CreateUserUsecase } from '../../../src/features/user/usecases/create.user.usecase'
 import { compare, hash } from 'bcryptjs'
 import { inMemoryUsersRepository } from '../../../src/features/user/repositories/in.memory/in.memory.users.repository'
 import { UserAlreadyExists } from '../../../src/features/user/usecases/errors/user.already.exists.error'
 
-describe('Create user usecase', () => {
-  test('It must be possible to register the user', async () => {
-    const userRepository = new inMemoryUsersRepository()
-    const createUsecase = new CreateUserUsecase(userRepository)
+let userRepository: inMemoryUsersRepository
+let sut: CreateUserUsecase
 
-    const { user } = await createUsecase.execute({
+describe('Create user usecase', () => {
+  beforeEach(() => {
+    userRepository = new inMemoryUsersRepository()
+    sut = new CreateUserUsecase(userRepository)
+  })
+
+  test('It must be possible to register the user', async () => {
+    const { user } = await sut.execute({
       name: 'lucas',
       email: 'lucas@gmail.com',
       password: '123456'
@@ -19,10 +24,7 @@ describe('Create user usecase', () => {
   })
 
   test('The user password must be hashed', async () => {
-    const userRepository = new inMemoryUsersRepository()
-    const createUsecase = new CreateUserUsecase(userRepository)
-
-    const { user } = await createUsecase.execute({
+    const { user } = await sut.execute({
       name: 'lucas',
       email: 'lucas@gmail.com',
       password: '123456'
@@ -37,19 +39,16 @@ describe('Create user usecase', () => {
   })
 
   test("There cannot be a user with a repeated email", async () => {
-    const userRepository = new inMemoryUsersRepository()
-    const createUsecase = new CreateUserUsecase(userRepository)
-
     const email = 'lucas@example.com'
 
-    await createUsecase.execute({
+    await sut.execute({
       name: 'lucas',
       email,
       password: '123456'
     })
 
     expect(() => 
-      createUsecase.execute({
+      sut.execute({
         name: 'lucas',
         email,
         password: '123456'

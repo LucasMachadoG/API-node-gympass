@@ -1,15 +1,20 @@
-import { describe, expect, test } from 'vitest'
-import { CreateUserUsecase } from '../../../src/features/user/usecases/user.create.usecase'
+import { beforeEach, describe, expect, test } from 'vitest'
 import { inMemoryUsersRepository } from '../../../src/features/user/repositories/in.memory/in.memory.users.repository'
-import { AuthenticateUserUsecase } from '../../../src/features/user/usecases/user.authenticate'
+import { AuthenticateUserUsecase } from '../../../src/features/user/usecases/authenticate.user.usecase'
 import { hash } from 'bcryptjs'
 import { InvalidCredentialsError } from '../../../src/features/user/usecases/errors/invalid.credential.error'
 
-describe('Create user usecase', () => {
-  test('Should be able to authenticate', async () => {
-    const userRepository = new inMemoryUsersRepository()
-    const sut = new AuthenticateUserUsecase(userRepository)
+let userRepository: inMemoryUsersRepository
+let sut: AuthenticateUserUsecase
 
+
+describe('Authenticate user usecase', () => {
+  beforeEach(() => {
+    userRepository = new inMemoryUsersRepository()
+    sut = new AuthenticateUserUsecase(userRepository)
+  })
+  
+  test('Should be able to authenticate', async () => {
     await userRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
@@ -25,9 +30,6 @@ describe('Create user usecase', () => {
   })
 
   test('Should not be able to authenticate with wrong email', async () => {
-    const userRepository = new inMemoryUsersRepository()
-    const sut = new AuthenticateUserUsecase(userRepository)
-
     expect(() => sut.execute({
       email: "johndoe@example.com",
       password: '123456'
@@ -35,9 +37,6 @@ describe('Create user usecase', () => {
   })
 
   test('Should not be able to authenticate with wrong password', async () => {
-    const userRepository = new inMemoryUsersRepository()
-    const sut = new AuthenticateUserUsecase(userRepository)
-
     await userRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
