@@ -1,6 +1,6 @@
 import { prisma } from "../../../lib/prisma.connection";
 import { Prisma } from "@prisma/client";
-import { UsersRepository } from "../contract/user.repository";
+import { UsersRepository } from "../contract/user.contract";
 
 export class PrismaUsersRepository implements UsersRepository{
   public async findById(id: string) {

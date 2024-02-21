@@ -1,9 +1,7 @@
 import { beforeEach, describe, expect, test } from 'vitest'
 import { inMemoryUsersRepository } from '../../../src/features/user/repositories/in.memory/in.memory.users.repository'
 import { hash } from 'bcryptjs'
-import { InvalidCredentialsError } from '../../../src/features/user/usecases/errors/invalid.credential.error'
 import { GetUserUsecase } from '../../../src/features/user/usecases/get.user.usecase'
-import exp from 'constants'
 import { ResourceNotFound } from '../../../src/features/user/usecases/errors/resource.not.found.error'
 
 let userRepository: inMemoryUsersRepository
@@ -32,7 +30,7 @@ describe('Get user profile', () => {
   })
   
   test('Should not be able to get user profile with wrong id', async () => {
-    expect(() => 
+    await expect(() => 
       sut.execute({
         id: 'non-existing-id'
       })

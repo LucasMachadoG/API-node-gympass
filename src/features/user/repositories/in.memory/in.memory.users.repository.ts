@@ -1,9 +1,10 @@
 import { Prisma, User } from "@prisma/client";
-import { UsersRepository } from "../../contract/user.repository";
+import { UsersRepository } from "../../contract/user.contract";
+import { randomUUID } from "node:crypto";
 
 export class inMemoryUsersRepository implements UsersRepository{
   public itens: User[] = []
-  
+
   public async findById(id: string) {
     const user = this.itens.find((item) => item.id === id)
 
@@ -17,7 +18,7 @@ export class inMemoryUsersRepository implements UsersRepository{
   public async create(data: Prisma.UserCreateInput) {
     const currentDate = new Date();
       const user = {
-        id: 'user-1',
+        id: randomUUID(),
         name: data.name,
         email: data.email,
         passwordHash: data.passwordHash,

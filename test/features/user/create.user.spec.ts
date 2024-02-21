@@ -1,22 +1,22 @@
 import { beforeEach, describe, expect, test } from 'vitest'
 import { CreateUserUsecase } from '../../../src/features/user/usecases/create.user.usecase'
 import { compare, hash } from 'bcryptjs'
-import { inMemoryUsersRepository } from '../../../src/features/user/repositories/in.memory/in.memory.users.repository'
 import { UserAlreadyExists } from '../../../src/features/user/usecases/errors/user.already.exists.error'
+import { inMemoryUsersRepository } from '../../../src/features/user/repositories/in.memory/in.memory.users.repository'
 
 let userRepository: inMemoryUsersRepository
 let sut: CreateUserUsecase
 
 describe('Create user usecase', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     userRepository = new inMemoryUsersRepository()
     sut = new CreateUserUsecase(userRepository)
   })
 
   test('It must be possible to register the user', async () => {
     const { user } = await sut.execute({
-      name: 'lucas',
-      email: 'lucas@gmail.com',
+      name: 'John Doe',
+      email: 'johndoe@example.com',
       password: '123456'
     })
 
@@ -25,8 +25,8 @@ describe('Create user usecase', () => {
 
   test('The user password must be hashed', async () => {
     const { user } = await sut.execute({
-      name: 'lucas',
-      email: 'lucas@gmail.com',
+      name: 'John Doe',
+      email: 'johndoe@example.com',
       password: '123456'
     })
 
@@ -39,17 +39,17 @@ describe('Create user usecase', () => {
   })
 
   test("There cannot be a user with a repeated email", async () => {
-    const email = 'lucas@example.com'
+    const email = 'johndoe@example.com'
 
     await sut.execute({
-      name: 'lucas',
+      name: 'John Doe',
       email,
       password: '123456'
     })
 
-    expect(() => 
+    await expect(() => 
       sut.execute({
-        name: 'lucas',
+        name: 'John Doe',
         email,
         password: '123456'
     }),

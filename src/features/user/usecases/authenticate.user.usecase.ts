@@ -1,5 +1,5 @@
 import { compare } from "bcryptjs";
-import { UsersRepository } from "../contract/user.repository";
+import { UsersRepository } from "../contract/user.contract";
 import { InvalidCredentialsError } from "./errors/invalid.credential.error";
 import { User } from "@prisma/client";
 

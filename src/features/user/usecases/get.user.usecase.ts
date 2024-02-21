@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { UsersRepository } from "../contract/user.repository";
+import { UsersRepository } from "../contract/user.contract";
 import { ResourceNotFound } from "./errors/resource.not.found.error";
 
 interface getUserRequest{
