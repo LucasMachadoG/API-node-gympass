@@ -4,10 +4,10 @@ import { prisma } from "../../../lib/prisma.connection";
 
 export class PrismaCheckInsRepository implements CheckInRepository{
   public async create(data: Prisma.CheckInUncheckedCreateInput) {
-    const checkin = await prisma.checkIn.create({
-      data
-    })
+  const checkin = await prisma.checkIn.create({
+    data
+  })
 
-    return checkin
-  }
+  return checkin
+}
 }
