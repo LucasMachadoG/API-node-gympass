@@ -17,15 +17,6 @@ describe('CheckIn usecase', () => {
     gymRepository = new inMemoryGymsRepository()
     sut = new CheckInUsecase(checkinRepository, gymRepository)
 
-    gymRepository.itens.push({
-      id: 'gym_01',
-      title: 'TesteGym',
-      description: '',
-      latitude: new Decimal(-27.2092052),
-      longitude: new Decimal(-49.6401091),
-      phone: ''
-    })
-
     await gymRepository.create({
       id: 'gym_01',
       title: 'TesteGym',
