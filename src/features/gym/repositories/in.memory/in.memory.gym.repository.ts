@@ -5,6 +5,10 @@ import { GymsRepository } from "../../contract/gym.contract";
 export class inMemoryGymsRepository implements GymsRepository{
   public itens: Gym[] = []
 
+  public async searchMany(query: string, page: number) {
+    return this.itens.filter((item) => item.title.includes(query)).slice((page - 1) * 20, page * 20)
+  }
+
   public async findById(id: string) {
     const gym = this.itens.find((item) => item.id === id)
 
