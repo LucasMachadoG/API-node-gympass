@@ -12,6 +12,7 @@ export class PrismaUsersRepository implements UsersRepository{
 
     return user
   }
+
   public async findByEmail(email: string) {
     const user = await prisma.user.findUnique({
       where: {
@@ -21,6 +22,7 @@ export class PrismaUsersRepository implements UsersRepository{
 
     return user
   }
+  
   public async create(data: Prisma.UserCreateInput){
     const user = await prisma.user.create({
       data
