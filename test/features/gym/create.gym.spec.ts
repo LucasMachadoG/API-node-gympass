@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, test } from 'vitest'
-import { inMemoryUsersRepository } from '../../../src/features/user/repositories/in.memory/in.memory.users.repository'
 import { inMemoryGymsRepository } from '../../../src/features/gym/repositories/in.memory/in.memory.gym.repository'
 import { CreateGymUsecase } from '../../../src/features/gym/usecase/create.gym.usecase'
+import { GymAlreadyExistsInThisLocation } from '../../../src/features/gym/usecase/error/gym.already.exists.in.this.location.error'
 
 let gymRepository: inMemoryGymsRepository
 let sut: CreateGymUsecase
@@ -22,5 +22,26 @@ describe('Create gym usecase', () => {
     })
 
     expect(gym.id).toEqual(expect.any(String))
+  })
+
+  test("Shoud not be able create gym with same location", async () => {
+    const latitude = -27.2092052;
+    const longitude = -49.6401091;
+    
+    const gym1 = await sut.execute({
+      title: 'SmartFit',
+      description: null,
+      phone: null,
+      latitude,
+      longitude 
+    })
+
+    await expect(() => 
+      sut.execute({title: 'SmartFit',
+      description: null,
+      phone: null,
+      latitude,
+      longitude})
+    ).rejects.toBeInstanceOf(GymAlreadyExistsInThisLocation)
   })
 })

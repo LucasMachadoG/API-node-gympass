@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
-import { UserAlreadyExists } from "../../features/user/usecases/errors/user.already.exists.error";
-import { makeCreateUsecase } from "../../features/user/usecases/factories/make.create.user.usecase";
+import { UserAlreadyExists } from "../../../features/user/usecases/errors/user.already.exists.error";
+import { makeCreateUsecase } from "../../../features/user/usecases/factories/make.create.user.usecase";
 
 
 export async function userCreate(request: FastifyRequest, reply: FastifyReply){

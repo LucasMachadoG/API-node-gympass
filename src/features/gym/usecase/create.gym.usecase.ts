@@ -1,6 +1,7 @@
 import { Gym } from "@prisma/client"
-import {  } from "../repositories/prisma.gym.repository"
 import { GymsRepository } from "../contract/gym.contract"
+import { Decimal } from "@prisma/client/runtime/library"
+import { GymAlreadyExistsInThisLocation } from "./error/gym.already.exists.in.this.location.error"
 
 interface createGymRequest{
   title: string
@@ -17,7 +18,13 @@ interface createGymResponse{
 export class CreateGymUsecase{
   constructor(private gymRepository: GymsRepository){}
 
-  public async execute({ title, description, phone, latitude, longitude }: createGymRequest): Promise<createGymResponse>{  
+  public async execute({ title, description, phone, latitude, longitude }: createGymRequest): Promise<createGymResponse>{ 
+    const gymWhithSameLocationAlreadyExists = await this.gymRepository.findByLatitudeLongitude(new Decimal(latitude), new Decimal(longitude))
+
+    if(gymWhithSameLocationAlreadyExists){
+      throw new GymAlreadyExistsInThisLocation()
+    }
+
     const gym = await this.gymRepository.create({
       title,
       description,

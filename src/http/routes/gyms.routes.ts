@@ -1,0 +1,13 @@
+import { FastifyInstance } from "fastify";
+import { verifyJWT } from "../middleware/verify.jwt";
+import { gymCreate } from "../controllers/gyms/gym.create.controller";
+import { searchGyms } from "../controllers/gyms/gym.search.controller";
+import { fetchNearbyGyms } from "../controllers/gyms/gym.fetch.controller";
+
+export async function gymsRoutes(app: FastifyInstance){
+  app.addHook('onRequest', verifyJWT)
+
+  app.post('/cadastrar/gym', gymCreate)
+  app.get('/gyms/search', searchGyms)
+  app.get('/gyms/nearby', fetchNearbyGyms)
+}

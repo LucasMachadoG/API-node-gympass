@@ -39,8 +39,8 @@ model Gym {
   description String?
   phone       String?
 
-  latitude  Decimal
-  longitude Decimal
+  latitude  Decimal @unique
+  longitude Decimal @unique
 
   CheckIns CheckIn[]
 }

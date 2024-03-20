@@ -12,15 +12,6 @@ describe('Validate checkIn usecase', () => {
     checkinRepository = new inMemoryCheckInsRepository()
     sut = new ValidateCheckInUsecase(checkinRepository)
 
-    // await gymRepository.create({
-    //   id: 'gym_01',
-    //   title: 'TesteGym',
-    //   description: '',
-    //   latitude: -27.2092052,
-    //   longitude: -49.6401091,
-    //   phone: ''
-    // })
-
     vi.useFakeTimers()
   })
 

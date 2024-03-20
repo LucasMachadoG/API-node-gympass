@@ -3,7 +3,6 @@ import { inMemoryCheckInsRepository } from '../../../src/features/checkIn/reposi
 import { CheckInUsecase } from '../../../src/features/checkIn/usecase/checkin.usecase'
 import { inMemoryGymsRepository } from '../../../src/features/gym/repositories/in.memory/in.memory.gym.repository'
 import { Decimal } from '@prisma/client/runtime/library'
-import exp from 'constants'
 import { MaxDistanceError } from '../../../src/features/checkIn/usecase/error/max.distance.error'
 import { MaxNumberOfCheckInsError } from '../../../src/features/checkIn/usecase/error/max.number.of.checkIns.error'
 

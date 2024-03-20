@@ -1,8 +1,24 @@
 import { Gym, Prisma } from "@prisma/client";
 import { FindManyNearbyParams, GymsRepository } from "../contract/gym.contract";
 import { prisma } from "../../../lib/prisma.connection";
+import { Decimal } from "@prisma/client/runtime/library";
 
 export class PrismaGymsRepository implements GymsRepository{
+  public async findByLatitudeLongitude(latitude: Decimal, longitude: Decimal){
+    const gym = await prisma.gym.findUnique({
+      where: {
+        latitude,
+        longitude
+      }
+    })
+
+    if(!gym){
+      return null
+    }
+
+    return gym
+  }
+
   public async findManyNearby({ latitude, longitude }: FindManyNearbyParams){
     const gyms = await prisma.$queryRaw<Gym[]>`
       SELECT * FROM 

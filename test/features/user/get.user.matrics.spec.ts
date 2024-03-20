@@ -1,14 +1,14 @@
 import { beforeEach, afterEach, describe, expect, test, vi } from 'vitest'
 import { inMemoryCheckInsRepository } from '../../../src/features/checkIn/repositories/in.memory./in.memory.checkin.repository'
-import { GetUserMatricsUsecase } from '../../../src/features/user/usecases/get.user.matrics.usecase'
+import { GetUserMetricsUsecase } from '../../../src/features/user/usecases/get.user.matrics.usecase'
 
 let checkinRepository: inMemoryCheckInsRepository
-let sut: GetUserMatricsUsecase
+let sut: GetUserMetricsUsecase
 
 describe('Get user matrics usecase', () => {
   beforeEach(async () => {
     checkinRepository = new inMemoryCheckInsRepository()
-    sut = new GetUserMatricsUsecase(checkinRepository)
+    sut = new GetUserMetricsUsecase(checkinRepository)
   })
   
   test('Should be able to get user metrics', async () => {
