@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 import { InvalidCredentialsError } from "../../../features/user/usecases/errors/invalid.credential.error";
 import { makeAuthenticateUsecase } from "../../../features/user/usecases/factories/make.authenticate.user.usecase";
@@ -27,7 +27,21 @@ export async function userAuthenticate(request: FastifyRequest, reply: FastifyRe
       }
     })
 
-    return reply.status(200).send({
+    const refreshToken = await reply.jwtSign({
+      name: ''
+    }, {
+      sign: {
+        sub: user.id,
+        expiresIn: '7d'
+      }
+    })
+
+    return reply.setCookie('refreshToken', refreshToken, {
+      path: '/',
+      secure: true,
+      sameSite: true,
+      httpOnly: true
+    }).status(200).send({
       token
     })
   }catch(error: any){
