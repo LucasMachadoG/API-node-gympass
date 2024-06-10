@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 import { InvalidCredentialsError } from "../../../features/user/usecases/errors/invalid.credential.error";
 import { makeAuthenticateUsecase } from "../../../features/user/usecases/factories/make.authenticate.user.usecase";
+import { Role } from "@prisma/client";
 
 export async function userAuthenticate(request: FastifyRequest, reply: FastifyReply){
   try{
@@ -20,7 +21,7 @@ export async function userAuthenticate(request: FastifyRequest, reply: FastifyRe
     })
 
     const token = await reply.jwtSign({
-      name: user.name
+      role: user.role
     }, {
       sign: {
         sub: user.id
@@ -28,7 +29,7 @@ export async function userAuthenticate(request: FastifyRequest, reply: FastifyRe
     })
 
     const refreshToken = await reply.jwtSign({
-      name: ''
+      role: user.role
     }, {
       sign: {
         sub: user.id,
